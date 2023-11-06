@@ -22,6 +22,17 @@ void inifile::loadFile(const std::filesystem::path& filepath)
     ini.LoadFile(filepath.c_str());
 }
 
+/**
+ * @brief Get a value from a specific section-key within an
+ * inifile
+ *
+ * @param section The section where the key is defined
+ * @param key The key you want to get
+ * @param optional If the value is optional, define as "true", otherwise an
+ * error will be thrown if it is empty.
+ *
+ * @return A string with the value
+ */
 std::string inifile::getValue(
     const std::string& section, const std::string& key, const bool optional)
 {

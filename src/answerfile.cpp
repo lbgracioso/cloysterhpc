@@ -311,6 +311,15 @@ void AnswerFile::loadNodes()
     }
 }
 
+/**
+ * @brief Validate if a node has all the necessary information.
+ * If he has any field left unfilled, the function fills it in with the generic
+ * node info.
+ *
+ * @param node A AFNode
+ *
+ * @return Returns the same AFNode with all fields filled in
+ */
 AnswerFile::AFNode AnswerFile::validateNode(AnswerFile::AFNode node)
 {
     if (node.start_ip->is_unspecified()) {
