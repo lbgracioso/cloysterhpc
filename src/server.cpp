@@ -72,21 +72,14 @@ const std::list<Connection>& Server::getConnections() const
     return m_connection;
 }
 
-void Server::addConnection(Network& network)
-{
-    m_connection.emplace_back(&network);
-}
-
-void Server::addConnection(Network& network,
-    std::optional<std::string_view> interface, std::string_view mac,
-    const std::string& ip)
-{
-    m_connection.emplace_back(&network, interface, mac, ip);
-}
-
 void Server::addConnection(Connection&& connection)
 {
     m_connection.emplace_back(connection);
+}
+
+template <typename... Args> void Server::addConnection(Args&&... args)
+{
+    m_connection.emplace_back(std::forward<Args>(args)...);
 }
 
 // const Connection& Server::getConnection(Network::Profile profile) const {

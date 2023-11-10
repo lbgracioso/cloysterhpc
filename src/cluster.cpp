@@ -371,12 +371,12 @@ void Cluster::fillTestData()
                "ib2.cluster.example.com", { "0.0.0.0" });
 #endif
 
-    m_headnode.addConnection(getNetwork(Network::Profile::External), "enp0s25",
+    m_headnode.addConnection(&getNetwork(Network::Profile::External), "enp0s25",
         "de:ad:be:ff:00:00", "172.16.144.50");
-    m_headnode.addConnection(getNetwork(Network::Profile::Management), "eno1",
+    m_headnode.addConnection(&getNetwork(Network::Profile::Management), "eno1",
         "de:ad:be:ff:00:01", "172.26.255.254");
     // It's ethernet, we know, but consider as Infiniband
-    m_headnode.addConnection(getNetwork(Network::Profile::Application), "eno1",
+    m_headnode.addConnection(&getNetwork(Network::Profile::Application), "eno1",
         "de:ad:be:ff:00:02", "172.27.255.254");
 
 #if 0
