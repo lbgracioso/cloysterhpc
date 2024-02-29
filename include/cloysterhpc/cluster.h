@@ -11,6 +11,7 @@
 #include <optional>
 #include <string>
 
+#include "answerfile.h"
 #include "cloysterhpc/services/locale.h"
 #include <cloysterhpc/diskImage.h>
 #include <cloysterhpc/headnode.h>
@@ -49,6 +50,7 @@ private:
 
     bool m_updateSystem { false };
     DiskImage m_diskImage;
+    AnswerFile m_answerfile;
 
 public:
     [[nodiscard]] Headnode& getHeadnode();
@@ -101,6 +103,8 @@ public:
 
     const std::filesystem::path& getDiskImage() const;
     void setDiskImage(const std::filesystem::path& diskImagePath);
+
+    const AnswerFile& getAnswerfile() const;
 
     // TODO: Add std::optional to BMC with std::nullopt as default initializer
     [[nodiscard]] const std::vector<Node>& getNodes() const;

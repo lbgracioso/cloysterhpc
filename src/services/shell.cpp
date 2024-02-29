@@ -15,8 +15,10 @@
 #include <memory>
 
 #include <cloysterhpc/NFS.h>
+#include <cloysterhpc/answerfile.h>
 #include <cloysterhpc/cluster.h>
 #include <cloysterhpc/repos.h>
+#include <cloysterhpc/spack.h>
 
 using cloyster::runCommand;
 
@@ -307,6 +309,19 @@ void Shell::configureInfiniband()
     }
 }
 
+void Shell::configureExtraApplications() {
+    LOG_INFO("Configuring extra applications")
+    cloyster::runCommand("dnf -y install git");
+
+    if (m_cluster->getAnswerfile().spack.enabled)
+    {
+        configureSpack();
+    }
+
+}
+
+void Shell::configureSpack() { Spack().configure(); }
+
 void Shell::removeMemlockLimits()
 {
     LOG_INFO("Removing memlock limits on headnode");
@@ -345,75 +360,76 @@ void Shell::installDevelopmentComponents()
  */
 void Shell::install()
 {
-    configureSELinuxMode();
-    configureFirewall();
-    configureFQDN();
-
-    configureHostsFile();
-    configureTimezone();
-    configureLocale();
-
-    configureNetworks(m_cluster->getHeadnode().getConnections());
-    runSystemUpdate();
-
-    // TODO: Pass headnode instead of cluster to reduce complexity
-    configureTimeService(m_cluster->getHeadnode().getConnections());
-
-    installRequiredPackages();
-
-    const auto& repos = Repos(m_cluster->getHeadnode().getOS());
-    repos.configureRepositories();
-    runSystemUpdate();
-
-    installOpenHPCBase();
-
-    configureInfiniband();
-
-    NFS networkFileSystem = NFS("pub", "/opt/ohpc",
-        m_cluster->getHeadnode()
-            .getConnection(Network::Profile::Management)
-            .getAddress(),
-        "ro,no_subtree_check");
-    networkFileSystem.configure();
-    networkFileSystem.enable();
-    networkFileSystem.start();
-
-    configureQueueSystem();
-    removeMemlockLimits();
-
-    installDevelopmentComponents();
-
-    const auto& provisionerName { magic_enum::enum_name(
-        m_cluster->getProvisioner()) };
-
-    LOG_DEBUG("Setting up the provisioner: {}", provisionerName);
-    // std::unique_ptr<Provisioner> provisioner;
-    std::unique_ptr<XCAT> provisioner;
-    switch (m_cluster->getProvisioner()) {
-        case Cluster::Provisioner::xCAT:
-            provisioner = std::make_unique<XCAT>(m_cluster);
-            break;
-    }
-
-    LOG_INFO("Setting up compute node images... This may take a while");
-
-    LOG_INFO("[{}] Installing packages", provisionerName);
-    provisioner->installPackages();
-
-    LOG_INFO("[{}] Setting up the provisioner", provisionerName);
-    provisioner->setup();
-
-    LOG_INFO("[{}] Creating node images", provisionerName);
-    provisioner->createImage();
-
-    LOG_INFO("[{}] Adding compute nodes", provisionerName);
-    provisioner->addNodes();
-
-    LOG_INFO("[{}] Setting up image on nodes", provisionerName);
-    provisioner->setNodesImage();
-
-    LOG_INFO("[{}] Setting up boot settings via IPMI, if available",
-        provisionerName);
-    provisioner->setNodesBoot();
-    provisioner->resetNodes();
+//    configureSELinuxMode();
+//    configureFirewall();
+//    configureFQDN();
+//
+//    configureHostsFile();
+//    configureTimezone();
+//    configureLocale();
+//
+//    configureNetworks(m_cluster->getHeadnode().getConnections());
+//    runSystemUpdate();
+//
+//    // TODO: Pass headnode instead of cluster to reduce complexity
+//    configureTimeService(m_cluster->getHeadnode().getConnections());
+//
+//    installRequiredPackages();
+//
+//    const auto& repos = Repos(m_cluster->getHeadnode().getOS());
+//    repos.configureRepositories();
+//    runSystemUpdate();
+//
+//    installOpenHPCBase();
+//
+//    configureInfiniband();
+//
+//    NFS networkFileSystem = NFS("pub", "/opt/ohpc",
+//        m_cluster->getHeadnode()
+//            .getConnection(Network::Profile::Management)
+//            .getAddress(),
+//        "ro,no_subtree_check");
+//    networkFileSystem.configure();
+//    networkFileSystem.enable();
+//    networkFileSystem.start();
+//
+//    configureQueueSystem();
+//    removeMemlockLimits();
+//
+//    installDevelopmentComponents();
+    configureExtraApplications();
+//
+//    const auto& provisionerName { magic_enum::enum_name(
+//        m_cluster->getProvisioner()) };
+//
+//    LOG_DEBUG("Setting up the provisioner: {}", provisionerName);
+//    // std::unique_ptr<Provisioner> provisioner;
+//    std::unique_ptr<XCAT> provisioner;
+//    switch (m_cluster->getProvisioner()) {
+//        case Cluster::Provisioner::xCAT:
+//            provisioner = std::make_unique<XCAT>(m_cluster);
+//            break;
+//    }
+//
+//    LOG_INFO("Setting up compute node images... This may take a while");
+//
+//    LOG_INFO("[{}] Installing packages", provisionerName);
+//    provisioner->installPackages();
+//
+//    LOG_INFO("[{}] Setting up the provisioner", provisionerName);
+//    provisioner->setup();
+//
+//    LOG_INFO("[{}] Creating node images", provisionerName);
+//    provisioner->createImage();
+//
+//    LOG_INFO("[{}] Adding compute nodes", provisionerName);
+//    provisioner->addNodes();
+//
+//    LOG_INFO("[{}] Setting up image on nodes", provisionerName);
+//    provisioner->setNodesImage();
+//
+//    LOG_INFO("[{}] Setting up boot settings via IPMI, if available",
+//        provisionerName);
+//    provisioner->setNodesBoot();
+//    provisioner->resetNodes();
 }

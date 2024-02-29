@@ -45,6 +45,7 @@ configure_disk() {
     vagrant ssh "$machine_name" -c "sudo mkdir /opt/iso"
 
     vagrant ssh "$machine_name" -c "sudo chown vagrant:vagrant /opt/ -R"
+    vagrant ssh "$machine_name" -c "sudo chmod g+s /opt/"
 
     # Reload machine
     vagrant reload "$vagrant_machine_name"
@@ -62,6 +63,7 @@ deploy_cloyster() {
 
     # Run Cloyster
     vagrant ssh "$machine_name" -c "sudo ./cloyster -l 6 -a answerfile.ini -u"
+    vagrant ssh "$machine_name" # Uncomment this if you want to SSH in the machine and use it right after running Cloyster.
 }
 
 destroy_vm_and_cleanup() {

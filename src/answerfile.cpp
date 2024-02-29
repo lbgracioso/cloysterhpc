@@ -11,8 +11,7 @@
 AnswerFile::AnswerFile(const std::filesystem::path& path)
     : m_path(path)
 {
-    m_ini.loadFile(m_path);
-    loadOptions();
+    loadAnswerfile(m_path);
 }
 
 void AnswerFile::loadOptions()
@@ -27,6 +26,7 @@ void AnswerFile::loadOptions()
     loadHostnameSettings();
     loadSystemSettings();
     loadNodes();
+    loadExtras();
 }
 
 address AnswerFile::convertStringToAddress(const std::string& addr)
@@ -35,6 +35,24 @@ address AnswerFile::convertStringToAddress(const std::string& addr)
         return boost::asio::ip::make_address(addr);
     } catch (boost::system::system_error& e) {
         throw std::runtime_error("Invalid address");
+    }
+}
+
+bool AnswerFile::intToBool(int value) { return (value != 0); }
+
+void AnswerFile::loadAnswerfile(const std::filesystem::path& path)
+{
+    m_ini.loadFile(path);
+    loadOptions();
+}
+
+void AnswerFile::loadExtras() { loadSpack(); }
+
+void AnswerFile::loadSpack()
+{
+    if (intToBool(stoi(m_ini.getValue("spack", "enabled", false)))) {
+        spack.enabled = true;
+        spack.obj = Spack();
     }
 }
 

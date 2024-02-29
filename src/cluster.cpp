@@ -249,6 +249,8 @@ void Cluster::setDiskImage(const std::filesystem::path& diskImagePath)
     }
 }
 
+const AnswerFile& Cluster::getAnswerfile() const { return m_answerfile; }
+
 const std::vector<Node>& Cluster::getNodes() const { return m_nodes; }
 
 void Cluster::addNode(std::string_view hostname, OS& os, CPU& cpu,
@@ -425,6 +427,8 @@ void Cluster::fillData(const std::string& answerfilePath)
 {
 
     AnswerFile answerfile(answerfilePath);
+    m_answerfile.loadAnswerfile(
+        answerfilePath); // @TODO Adjust the code to use this
 
     LOG_TRACE("Configure Management Network");
     // Management Network

@@ -6,6 +6,7 @@
 #ifndef CLOYSTERHPC_ANSWERFILE_H_
 #define CLOYSTERHPC_ANSWERFILE_H_
 
+#include "spack.h"
 #include <boost/asio.hpp>
 #include <cloysterhpc/inifile.h>
 #include <optional>
@@ -72,11 +73,18 @@ private:
         std::vector<AFNode> nodes;
     };
 
+    struct AFSpack {
+        bool enabled = false;
+        Spack obj;
+    };
+
     std::filesystem::path m_path;
     inifile m_ini;
 
     void loadOptions();
     address convertStringToAddress(const std::string& addr);
+    bool intToBool(int value);
+
     void loadExternalNetwork();
     void loadManagementNetwork();
     void loadApplicationNetwork();
@@ -85,6 +93,8 @@ private:
     void loadHostnameSettings();
     void loadSystemSettings();
     void loadNodes();
+    void loadExtras();
+    void loadSpack();
     AFNode loadNode(const std::string& section);
     AFNode validateNode(AFNode node);
 
@@ -97,8 +107,11 @@ public:
     AFHostname hostname;
     AFSystem system;
     AFNodes nodes;
+    AFSpack spack;
 
+    void loadAnswerfile(const std::filesystem::path& path);
     explicit AnswerFile(const std::filesystem::path& path);
+    AnswerFile() = default;
 };
 
 #endif // CLOYSTERHPC_ANSWERFILE_H_

@@ -35,6 +35,9 @@ private:
     void configureQueueSystem();
     void configureInfiniband();
 
+    void configureExtraApplications();
+    void configureSpack();
+
     void removeMemlockLimits();
     void installDevelopmentComponents();
 
