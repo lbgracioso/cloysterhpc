@@ -18,20 +18,20 @@ void SELinux::configurexCATPolicies()
 void SELinux::configurexCATPolicyFile()
 {
     // Create SELinux policy file for xCAT
-    const std::string file = "/root/xCAT-httpd-read-tftpdir.te";
+    const std::string file = "/opt/cloysterhpc/xCAT-httpd-read-tftpdir.te";
     cloyster::addStringToFile(file, xCATSELinuxPolicyFile);
     cloyster::setFilePermissions(file);
 
     // Install SELinux policy file for xCAT
     std::string combinedCommands
-        = "checkmodule -M -m -o /root/xCAT-httpd-read-tftpdir.mod "
-          "/root/xCAT-httpd-read-tftpdir.te && "
-          "semodule_package -o /root/xCAT-httpd-read-tftpdir.pp -m "
-          "/root/xCAT-httpd-read-tftpdir.mod && "
-          "semodule -i /root/xCAT-httpd-read-tftpdir.pp && "
+        = "checkmodule -M -m -o /opt/cloysterhpc/xCAT-httpd-read-tftpdir.mod "
+          "/opt/cloysterhpc/xCAT-httpd-read-tftpdir.te && "
+          "semodule_package -o /opt/cloysterhpc/xCAT-httpd-read-tftpdir.pp -m "
+          "/opt/cloysterhpc/xCAT-httpd-read-tftpdir.mod && "
+          "semodule -i /opt/cloysterhpc/xCAT-httpd-read-tftpdir.pp && "
           "semanage fcontext -a -t httpd_sys_content_t '/install(/.*)?' && "
           "restorecon -R /install && "
-          "rm -rf /root/xCAT-httpd-read-tftpdir*";
+          "rm -rf /opt/cloysterhpc/xCAT-httpd-read-tftpdir*";
 
     cloyster::runCommand(combinedCommands);
 }
@@ -39,35 +39,36 @@ void SELinux::configurexCATPolicyFile()
 void SELinux::configurexCATgenimagePolicyFile()
 {
     // Create SELinux genimage policy file for xCAT
-    const std::string file = "/root/xCAT-genimage-ldconfig-rw-tmpdir.te";
+    const std::string file = "/opt/cloysterhpc/xCAT-genimage-ldconfig-rw-tmpdir.te";
     cloyster::addStringToFile(file, xCATgenimageSELinuxPolicyFile);
     cloyster::setFilePermissions(file);
 
     // Install SELinux genimage policy file for xCAT
     std::string combinedCommands
-        = "checkmodule -M -m -o /root/xCAT-genimage-ldconfig-rw-tmpdir.mod "
-          "/root/xCAT-genimage-ldconfig-rw-tmpdir.te && "
-          "semodule_package -o /root/xCAT-genimage-ldconfig-rw-tmpdir.pp -m "
-          "/root/xCAT-genimage-ldconfig-rw-tmpdir.mod && "
-          "semodule -i /root/xCAT-genimage-ldconfig-rw-tmpdir.pp && "
-          "rm -rf /root/xCAT-genimage-ldconfig*";
+        = "checkmodule -M -m -o /opt/cloysterhpc/xCAT-genimage-ldconfig-rw-tmpdir.mod "
+          "/opt/cloysterhpc/xCAT-genimage-ldconfig-rw-tmpdir.te && "
+          "semodule_package -o /opt/cloysterhpc/xCAT-genimage-ldconfig-rw-tmpdir.pp -m "
+          "/opt/cloysterhpc/xCAT-genimage-ldconfig-rw-tmpdir.mod && "
+          "semodule -i /opt/cloysterhpc/xCAT-genimage-ldconfig-rw-tmpdir.pp && "
+          "rm -rf /opt/cloysterhpc/xCAT-genimage-ldconfig*";
 
     cloyster::runCommand(combinedCommands);
 }
 
 void SELinux::configurexCATrsyncPolicyFile()
 {
+    
     // Create SELinux rsync policy file for xCAT
-    const std::string file = "/root/xCAT-rsync.te";
+    const std::string file = "/opt/cloysterhpc/xCAT-rsync.te";
     cloyster::addStringToFile(file, xCATrsyncSELinuxPolicyFile);
     cloyster::setFilePermissions(file);
 
     // Install SELinux rsync policy file for xCAT
     std::string combinedCommands
-        = "checkmodule -M -m -o /root/xCAT-rsync.mod /root/xCAT-rsync.te && "
-          "semodule_package -o /root/xCAT-rsync.pp -m /root/xCAT-rsync.mod && "
-          "semodule -i /root/xCAT-rsync.pp && "
-          "rm -rf /root/xCAT-genimage-ldconfig*";
+        = "checkmodule -M -m -o /opt/cloysterhpc/xCAT-rsync.mod /opt/cloysterhpc/xCAT-rsync.te && "
+          "semodule_package -o /opt/cloysterhpc/xCAT-rsync.pp -m /opt/cloysterhpc/xCAT-rsync.mod && "
+          "semodule -i /opt/cloysterhpc/xCAT-rsync.pp && "
+          "rm -rf /opt/cloysterhpc/xCAT-genimage-ldconfig*";
 
     cloyster::runCommand(combinedCommands);
 }
