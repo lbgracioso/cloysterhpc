@@ -169,7 +169,6 @@ void AnswerFile::loadHostnameSettings()
         = m_ini.getValue("hostname", "domain_name", false, false);
 }
 
-
 void AnswerFile::loadSystemSettings()
 {
     system.disk_image = m_ini.getValue("system", "disk_image", false, false);
@@ -297,7 +296,8 @@ AnswerFile::AFNode AnswerFile::validateNode(AnswerFile::AFNode node)
     return node;
 }
 
-SELinux AnswerFile::loadSELinux() {
+SELinux AnswerFile::loadSELinux()
+{
     SELinux selinux;
     selinux.setMode(m_ini.getValue("system", "selinuxmode", true, false));
 

@@ -11,7 +11,6 @@
 #include <optional>
 #include <string>
 
-#include <cloysterhpc/selinux/selinux.h>
 #include "cloysterhpc/services/locale.h"
 #include <cloysterhpc/diskImage.h>
 #include <cloysterhpc/headnode.h>
@@ -21,6 +20,7 @@
 #include <cloysterhpc/ofed.h>
 #include <cloysterhpc/queuesystem/pbs.h>
 #include <cloysterhpc/queuesystem/slurm.h>
+#include <cloysterhpc/selinux/selinux.h>
 #include <cloysterhpc/services/locale.h>
 #include <cloysterhpc/services/timezone.h>
 
