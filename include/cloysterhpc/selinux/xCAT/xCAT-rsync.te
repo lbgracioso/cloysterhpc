@@ -1,4 +1,4 @@
-module xCAT-rsync 2.0;
+R"(module xCAT-rsync 2.0;
 
 require {
     class capability dac_override;
@@ -66,3 +66,5 @@ allow setfiles_t httpd_sys_content_t:chr_file write;
 #============= useradd_t ==============
 allow useradd_t httpd_sys_content_t:chr_file write;
 allow useradd_t httpd_sys_content_t:lnk_file read;
+
+)"

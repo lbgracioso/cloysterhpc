@@ -1,4 +1,4 @@
-module xCAT-httpd-read-tftpdir 1.0;
+R"(module xCAT-httpd-read-tftpdir 1.0;
 
 require {
     type httpd_t;
@@ -10,3 +10,5 @@ require {
 #============= httpd_t ==============
 allow httpd_t tftpdir_t:dir read;
 allow httpd_t tftpdir_t:file { getattr open read };
+
+)"

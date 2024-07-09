@@ -11,6 +11,7 @@
 #include <optional>
 #include <string>
 
+#include <cloysterhpc/selinux/selinux.h>
 #include "cloysterhpc/services/locale.h"
 #include <cloysterhpc/diskImage.h>
 #include <cloysterhpc/headnode.h>
@@ -25,7 +26,6 @@
 
 class Cluster {
 public:
-    enum class SELinuxMode { Permissive, Enforcing, Disabled };
     enum class Provisioner { xCAT };
 
 private:
@@ -40,7 +40,7 @@ private:
     std::vector<Node> m_nodes;
 
     bool m_firewall { false };
-    SELinuxMode m_selinux { SELinuxMode::Disabled };
+    SELinux::Mode m_selinux { SELinux::Mode::Disabled };
     Timezone m_timezone;
     Locale m_locale; /* Default locale cluster wide */
     std::string m_domainName;
@@ -62,8 +62,8 @@ public:
     void setAdminMail(std::string_view adminMail);
     [[nodiscard]] bool isFirewall() const;
     void setFirewall(bool firewall);
-    [[nodiscard]] SELinuxMode getSELinux() const;
-    void setSELinux(SELinuxMode);
+    [[nodiscard]] SELinux::Mode getSELinux() const;
+    void setSELinux(SELinux::Mode);
     [[nodiscard]] Timezone& getTimezone();
     void setTimezone(const std::string& tz);
     [[nodiscard]] const Locale& getLocale() const;

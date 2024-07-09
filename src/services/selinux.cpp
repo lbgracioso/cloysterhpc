@@ -80,3 +80,17 @@ void SELinux::configureProvisioner(Cluster::Provisioner provisioner)
             break;
     }
 }
+
+void SELinux::setMode(SELinux::Mode mode) { m_mode = mode; }
+
+void SELinux::setMode(const std::string& mode) {
+    if (const auto& formattedMode = magic_enum::enum_cast<SELinux::Mode>(
+            mode, magic_enum::case_insensitive)) {
+        m_mode = formattedMode.value();
+    } else {
+        throw std::runtime_error(
+            fmt::format("Unsupported mode: {}", mode));
+    }
+}
+
+SELinux::Mode SELinux::getMode() { return m_mode; }

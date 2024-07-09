@@ -20,7 +20,6 @@
 #include <regex>
 
 #ifndef NDEBUG
-#include "cloysterhpc/selinux/selinux.h"
 #include <fmt/format.h>
 #endif
 
@@ -58,9 +57,9 @@ bool Cluster::isFirewall() const { return m_firewall; }
 
 void Cluster::setFirewall(bool firewall) { m_firewall = firewall; }
 
-Cluster::SELinuxMode Cluster::getSELinux() const { return m_selinux; }
+SELinux::Mode Cluster::getSELinux() const { return m_selinux; }
 
-void Cluster::setSELinux(Cluster::SELinuxMode mode) { m_selinux = mode; }
+void Cluster::setSELinux(SELinux::Mode mode) { m_selinux = mode; }
 
 Timezone& Cluster::getTimezone() { return m_timezone; }
 
@@ -344,7 +343,7 @@ void Cluster::fillTestData()
 {
     setName("Cloyster");
     setFirewall(true);
-    setSELinux(SELinuxMode::Disabled);
+    setSELinux(SELinux::Mode::Disabled);
     setTimezone("America/Sao_Paulo");
     setLocale("en_US.UTF-8");
     this->m_headnode.setHostname(std::string_view { "headnode" });
@@ -504,7 +503,7 @@ void Cluster::fillData(const std::string& answerfilePath)
 
     setTimezone(answerfile.time.timezone);
     setLocale(answerfile.time.locale);
-    setSELinux(answerfile.system.selinuxmode);
+    setSELinux(answerfile.system.selinux.getMode());
 
     this->m_headnode.setHostname(answerfile.hostname.hostname);
     setDomainName(answerfile.hostname.domain_name);
@@ -608,9 +607,9 @@ void Cluster::fillData(const std::string& answerfilePath)
     m_headnode.setOS(nodeOS);
 
     // SELinux policies
-    if (getSELinux() != SELinuxMode::Disabled) {
-        SELinux SELinuxConfigurer;
-        SELinuxConfigurer.configureProvisioner(getProvisioner());
+    if (getSELinux() != SELinux::Mode::Disabled) {
+        SELinux selinux;
+        selinux.configureProvisioner(getProvisioner());
     }
 
     LOG_TRACE("Configure Nodes")

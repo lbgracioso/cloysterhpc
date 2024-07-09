@@ -169,18 +169,6 @@ void AnswerFile::loadHostnameSettings()
         = m_ini.getValue("hostname", "domain_name", false, false);
 }
 
-Cluster::SELinuxMode AnswerFile::checkSELinuxMode(const std::string& mode)
-{
-    if (mode == "enforcing") {
-        return Cluster::SELinuxMode::Enforcing;
-    } else if (mode == "permissive") {
-        return Cluster::SELinuxMode::Permissive;
-    } else if (mode == "disabled") {
-        return Cluster::SELinuxMode::Disabled;
-    } else {
-        return Cluster::SELinuxMode::Enforcing;
-    }
-}
 
 void AnswerFile::loadSystemSettings()
 {
@@ -198,8 +186,8 @@ void AnswerFile::loadSystemSettings()
 
     system.version = m_ini.getValue("system", "version", false, false);
     system.kernel = m_ini.getValue("system", "kernel", false, false);
-    system.selinuxmode = checkSELinuxMode(
-        m_ini.getValue("system", "selinuxmode", true, false));
+
+    system.selinux = loadSELinux();
 }
 
 AnswerFile::AFNode AnswerFile::loadNode(const std::string& section)
@@ -307,6 +295,13 @@ AnswerFile::AFNode AnswerFile::validateNode(AnswerFile::AFNode node)
         nodes.generic->bmc_serialspeed);
 
     return node;
+}
+
+SELinux AnswerFile::loadSELinux() {
+    SELinux selinux;
+    selinux.setMode(m_ini.getValue("system", "selinuxmode", true, false));
+
+    return selinux;
 }
 
 #ifdef BUILD_TESTING

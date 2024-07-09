@@ -47,17 +47,17 @@ void Shell::configureSELinuxMode()
     LOG_INFO("Setting up SELinux")
 
     switch (m_cluster->getSELinux()) {
-        case Cluster::SELinuxMode::Permissive:
+        case SELinux::Mode::Permissive:
             runCommand("setenforce 0");
             /* Permissive mode */
             break;
 
-        case Cluster::SELinuxMode::Enforcing:
+        case SELinux::Mode::Enforcing:
             /* Enforcing mode */
             runCommand("setenforce 1");
             break;
 
-        case Cluster::SELinuxMode::Disabled:
+        case SELinux::Mode::Disabled:
             disableSELinux();
             break;
     }

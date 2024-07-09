@@ -53,7 +53,7 @@ private:
         OS::Distro distro;
         std::string version;
         std::string kernel;
-        Cluster::SELinuxMode selinuxmode;
+        SELinux selinux;
     };
 
     struct AFNode {
@@ -93,7 +93,7 @@ private:
     void loadNodes();
     AFNode loadNode(const std::string& section);
     AFNode validateNode(AFNode node);
-    Cluster::SELinuxMode checkSELinuxMode(const std::string& mode);
+    SELinux loadSELinux();
 
     template <typename T>
     void validateAttribute(const std::string& sectionName,
