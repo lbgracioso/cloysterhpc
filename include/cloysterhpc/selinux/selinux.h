@@ -6,8 +6,8 @@
 #ifndef CLOYSTERHPC_SELINUX_H_
 #define CLOYSTERHPC_SELINUX_H_
 
-#include <cloysterhpc/cluster.h>
 #include <cloysterhpc/selinux/xCAT/xcatpolicies.h>
+#include <cloysterhpc/services/provisioner.h>
 #include <string>
 
 class SELinux {
@@ -25,10 +25,7 @@ public:
     void setMode(Mode mode);
     void setMode(const std::string& mode);
     SELinux::Mode getMode();
-    void configureProvisioner(Cluster::Provisioner
-            provisioner); // Não é possível, visto que não posso incluir
-                          // cluster.h aqui ao mesmo tempo que incluo selinux.h
-                          // no cluster.h
+    void configureProvisioner(ProvisionerType provisioner);
 };
 
 #endif // CLOYSTERHPC_SELINUX_H_

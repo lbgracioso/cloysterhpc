@@ -399,7 +399,7 @@ void Shell::install()
     // std::unique_ptr<Provisioner> provisioner;
     std::unique_ptr<XCAT> provisioner;
     switch (m_cluster->getProvisioner()) {
-        case Cluster::Provisioner::xCAT:
+        case ProvisionerType::xCAT:
             provisioner = std::make_unique<XCAT>(m_cluster);
             break;
     }

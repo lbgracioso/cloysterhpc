@@ -8,6 +8,8 @@
 
 #include <string>
 
+enum class ProvisionerType { xCAT };
+
 class Provisioner {
 public:
     virtual ~Provisioner() = default;

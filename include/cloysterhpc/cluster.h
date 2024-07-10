@@ -22,18 +22,17 @@
 #include <cloysterhpc/queuesystem/slurm.h>
 #include <cloysterhpc/selinux/selinux.h>
 #include <cloysterhpc/services/locale.h>
+#include <cloysterhpc/services/provisioner.h>
 #include <cloysterhpc/services/timezone.h>
 
 class Cluster {
 public:
-    enum class Provisioner { xCAT };
-
 private:
     std::string m_name;
     std::string m_companyName;
     std::string m_adminMail;
     Headnode m_headnode;
-    Provisioner m_provisioner { Provisioner::xCAT };
+    ProvisionerType m_provisioner { ProvisionerType::xCAT };
     std::optional<OFED> m_ofed;
     std::optional<std::unique_ptr<QueueSystem>> m_queueSystem {};
     std::optional<Postfix> m_mailSystem {};
@@ -87,8 +86,8 @@ public:
     bool isUpdateSystem() const;
     void setUpdateSystem(bool);
 
-    Provisioner getProvisioner() const;
-    void setProvisioner(Provisioner);
+    ProvisionerType getProvisioner() const;
+    void setProvisioner(ProvisionerType);
 
     std::optional<OFED> getOFED() const;
     void setOFED(OFED::Kind kind);

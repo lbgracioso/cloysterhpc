@@ -6,6 +6,7 @@
 #include "cloysterhpc/selinux/selinux.h"
 #include "cloysterhpc/functions.h"
 #include "cloysterhpc/services/log.h"
+#include <magic_enum.hpp>
 
 void SELinux::configurexCATPolicies()
 {
@@ -85,10 +86,10 @@ void SELinux::configurexCATrsyncPolicyFile()
     }
 }
 
-void SELinux::configureProvisioner(Cluster::Provisioner provisioner)
+void SELinux::configureProvisioner(ProvisionerType provisioner)
 {
     switch (provisioner) {
-        case Cluster::Provisioner::xCAT:
+        case ProvisionerType::xCAT:
             configurexCATPolicies();
             break;
     }

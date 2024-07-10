@@ -197,9 +197,9 @@ void Cluster::setUpdateSystem(bool updateSystem)
     m_updateSystem = updateSystem;
 }
 
-Cluster::Provisioner Cluster::getProvisioner() const { return m_provisioner; }
+ProvisionerType Cluster::getProvisioner() const { return m_provisioner; }
 
-void Cluster::setProvisioner(Cluster::Provisioner provisioner)
+void Cluster::setProvisioner(ProvisionerType provisioner)
 {
     m_provisioner = provisioner;
 }
@@ -394,7 +394,7 @@ void Cluster::fillTestData()
 #endif
 
     setUpdateSystem(true);
-    setProvisioner(Provisioner::xCAT);
+    setProvisioner(ProvisionerType::xCAT);
 
     setDiskImage("/root/OracleLinux-R8-U5-x86_64-dvd.iso");
     OS nodeOS(OS::Arch::x86_64, OS::Family::Linux, OS::Platform::el8,
@@ -603,7 +603,7 @@ void Cluster::fillData(const std::string& answerfilePath)
 
     // System
     setUpdateSystem(true);
-    setProvisioner(Provisioner::xCAT);
+    setProvisioner(ProvisionerType::xCAT);
     m_headnode.setOS(nodeOS);
 
     // SELinux policies
